@@ -26,10 +26,10 @@ app.get("/", async (_req, res) => {
 });
 
 app.post("/", async (req, res) => {
-    const [title, code, date] = req.body;
+    const newSnippet = req.body;
     await client.query(
         "INSERT INTO code_snippets (title,code_snippet,date) VALUES ($1, $2, $3)",
-        [title, code, date]
+        [newSnippet.title, newSnippet.code, newSnippet.date]
     );
     res.json("successfully inserted");
 });
