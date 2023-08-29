@@ -25,6 +25,15 @@ app.get("/", async (_req, res) => {
     res.json(allSnippets.rows);
 });
 
+app.post("/", async (req, res) => {
+    const [title, code, date] = req.body;
+    await client.query(
+        "INSERT INTO code_snippets (title,code_snippet,date) VALUES ($1, $2, $3)",
+        [title, code, date]
+    );
+    res.json("successfully inserted");
+});
+
 app.get("/health-check", async (_req, res) => {
     try {
         //For this to be successful, must connect to db
