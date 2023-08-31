@@ -21,7 +21,9 @@ app.use(express.json()); //add JSON body parser to each following route handler
 app.use(cors()); //add CORS support to each following route handler
 
 app.get("/", async (_req, res) => {
-    const allSnippets = await client.query("SELECT * FROM code_snippets");
+    const allSnippets = await client.query(
+        "SELECT * FROM code_snippets ORDER BY id DESC LIMIT 10"
+    );
     res.json(allSnippets.rows);
 });
 
@@ -29,7 +31,7 @@ app.post("/", async (req, res) => {
     const newSnippet = req.body;
     await client.query(
         "INSERT INTO code_snippets (title,code_snippet,date) VALUES ($1, $2, $3)",
-        [newSnippet.title, newSnippet.code, newSnippet.date]
+        [newSnippet.title, newSnippet.code_snippet, newSnippet.date]
     );
     res.json("successfully inserted");
 });
